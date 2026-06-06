@@ -1,0 +1,74 @@
+@import "tailwindcss";
+
+@theme {
+  --font-family-sans: 'Inter', sans-serif;
+  --font-family-mono: 'JetBrains Mono', monospace;
+
+  --color-bg: #0a0f0d;
+  --color-surface: #111a14;
+  --color-surface2: #162019;
+  --color-green: #4ade80;
+  --color-green-dim: #22c55e;
+  --color-green-muted: rgba(74, 222, 128, 0.1);
+  --color-muted: #8a9e8e;
+  --color-dim: #4a5e4e;
+}
+
+body {
+  background: #0a0f0d;
+  color: #f8faf8;
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+button { font-family: 'Inter', sans-serif; }
+
+.avatar-video-idle {
+  animation: avatar-idle 4.8s ease-in-out infinite;
+  transform-origin: center 55%;
+}
+
+.avatar-video-speaking {
+  animation: avatar-speaking 680ms ease-in-out infinite;
+  transform-origin: center 55%;
+  will-change: transform, filter;
+}
+
+@keyframes avatar-idle {
+  0%, 100% {
+    transform: scale(1) translateY(0);
+  }
+
+  50% {
+    transform: scale(1.012) translateY(1px);
+  }
+}
+
+@keyframes avatar-speaking {
+  0%, 100% {
+    transform: scale(1.035) translateY(0) rotate(0deg);
+    filter: saturate(1.05) contrast(1.02);
+  }
+
+  28% {
+    transform: scale(1.06) translateY(-2px) rotate(-0.25deg);
+    filter: saturate(1.14) contrast(1.04);
+  }
+
+  62% {
+    transform: scale(1.048) translateY(2px) rotate(0.18deg);
+    filter: saturate(1.09) contrast(1.03);
+  }
+}
+
+@keyframes avatar-eq {
+  0%, 100% {
+    transform: scaleY(0.45);
+    opacity: 0.65;
+  }
+
+  50% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
