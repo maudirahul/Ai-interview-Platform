@@ -44,7 +44,7 @@ export default function TransactionsPage() {
   return (
     <div className="min-h-screen bg-bg text-[#f8faf8] font-sans">
       <Navbar />
-      <main className="px-10 py-7 max-w-6xl mx-auto">
+      <main className="px-10 py-7 max-w-6xl mx-auto animate-page-fade">
         {/* Header */}
         <div className="mb-8">
           <span className="text-[11px] font-bold tracking-widest text-green uppercase font-mono">

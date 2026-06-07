@@ -126,7 +126,7 @@ export default function ReportPage({ shared = false }) {
       </nav>
 
       {/* ── MAIN CONTENT ── */}
-      <div className="max-w-5xl mx-auto px-6 mt-10 space-y-10">
+      <div className="max-w-5xl mx-auto px-6 mt-10 space-y-10 animate-page-fade">
         {/* TOP STATS GRID */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
           {/* Main Score Card */}

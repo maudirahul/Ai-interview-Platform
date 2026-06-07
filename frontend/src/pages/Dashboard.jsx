@@ -16,6 +16,7 @@ export default function Dashboard() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
   const [sessions, setSessions] = useState([]);
+  const [reports, setReports] = useState([]);
   const [scores, setScores] = useState({
     technical: 0,
     communication: 0,
@@ -47,6 +48,8 @@ export default function Dashboard() {
             const reportData = await api.getAllReports(token);
 
             if (reportData.success && reportData.reports?.length) {
+              setReports(reportData.reports);
+
               const avg = (key) =>
                 Math.round(
                   reportData.reports.reduce(
@@ -81,24 +84,20 @@ export default function Dashboard() {
     fetchData();
   }, []);
 
-  const completedSessions = sessions.filter(
-    (s) => s.status === "completed" && s.reportId,
-  );
-
-  const bestReport = completedSessions.length
-    ? completedSessions.reduce(
-        (best, s) =>
-          (s.overallScore ?? 0) > (best.overallScore ?? 0) ? s : best,
-        completedSessions[0],
+  const bestReport = reports.length
+    ? reports.reduce(
+        (best, r) =>
+          (r.overallScore ?? 0) > (best.overallScore ?? 0) ? r : best,
+        reports[0],
       )
     : null;
 
-  const avgScore =
-    scores.technical || scores.communication || scores.behavioral
-      ? Math.round(
-          (scores.technical + scores.communication + scores.behavioral) / 3,
-        )
-      : null;
+  const avgScore = reports.length
+    ? Math.round(
+        reports.reduce((sum, r) => sum + (r.overallScore ?? 0), 0) /
+          reports.length,
+      )
+    : null;
 
   const displayName =
     auth0User?.name ||
@@ -117,7 +116,7 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-bg text-[#f8faf8] font-sans">
       <Navbar />
-      <div className="px-10 py-7">
+      <div className="px-10 py-7 animate-page-fade">
         <WelcomeBanner
           name={displayName}
           sessionBalance={user?.sessionBalance ?? 0}
@@ -140,6 +139,8 @@ export default function Dashboard() {
             }
             behavioral={scores.behavioral ? (scores.behavioral / 25) * 100 : 0}
             integrity={scores.integrity ?? 0}
+            topStrengths={reports[0]?.topStrengths ?? []}
+            topImprovements={reports[0]?.topImprovements ?? []}
           />
         </div>
         <RolesPicker />

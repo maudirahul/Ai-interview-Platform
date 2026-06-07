@@ -60,10 +60,10 @@ export default function Navbar() {
           <span
             key={item.path}
             onClick={() => navigate(item.path)}
-            className={`text-[16px] px-3 py-1.5 rounded-md cursor-pointer transition-colors ${
+            className={`text-[16px] px-3 py-1.5 rounded-md cursor-pointer transition-all duration-200 border ${
               location.pathname === item.path
-                ? "bg-surface text-[#f8faf8] border border-white/10"
-                : "text-muted hover:text-[#f8faf8]"
+                ? "bg-surface text-[#f8faf8] border-white/10"
+                : "border-transparent text-muted hover:text-[#f8faf8] hover:bg-white/[0.02]"
             }`}
           >
             {item.label}

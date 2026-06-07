@@ -87,7 +87,7 @@ const getUserReports = async (req, res, next) => {
   try {
     const reports = await Report.find({ userId: req.user._id })
       .select(
-        "sessionId role roleLabel level overallScore grade createdAt sessionDuration integrityScore shareToken",
+        "sessionId role roleLabel level overallScore grade createdAt sessionDuration integrityScore shareToken technicalScore communicationScore behavioralScore topStrengths topImprovements",
       )
       .sort({ createdAt: -1 })
       .limit(20);

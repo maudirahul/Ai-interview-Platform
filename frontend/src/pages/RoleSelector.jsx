@@ -188,7 +188,7 @@ export default function RoleSelector() {
         )}
       </nav>
 
-      <div className="flex-1 px-10 pt-6 pb-8 flex flex-col justify-between max-w-4xl w-full mx-auto">
+      <div className="flex-1 px-10 pt-6 pb-8 flex flex-col justify-between max-w-4xl w-full mx-auto animate-page-fade">
         <div>
           {/* Header */}
           <div className="mb-6">

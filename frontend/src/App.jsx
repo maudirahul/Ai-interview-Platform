@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import { useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useDispatch, useSelector } from "react-redux";
 import ProtectedRoute from "./components/common/ProtectedRoute";
 import LandingOrLoader from "./components/common/LandingOrLoader";
 import Dashboard from "./pages/Dashboard";
@@ -17,15 +18,36 @@ import ReportPage from "./pages/ReportPage";
 import ReportsPage from "./pages/ReportsPage";
 import TransactionsPage from "./pages/TransactionsPage";
 import NotFound from "./components/common/NotFound";
+import { setUser } from "./store/slices/authSlice";
+import * as api from "./services/api";
 
-function AuthRedirect() {
-  const { isAuthenticated } = useAuth0();
+function AuthManager() {
+  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
+  const reduxUser = useSelector((state) => state.auth.user);
 
   useEffect(() => {
     if (isAuthenticated && location.pathname === "/") navigate("/dashboard");
-  }, [isAuthenticated, location.pathname]);
+  }, [isAuthenticated, location.pathname, navigate]);
+
+  useEffect(() => {
+    const syncUser = async () => {
+      if (isAuthenticated && !reduxUser) {
+        try {
+          const token = await getAccessTokenSilently();
+          const userData = await api.getMe(token);
+          if (userData.success) {
+            dispatch(setUser(userData.user));
+          }
+        } catch (err) {
+          console.error("Failed to sync user details:", err);
+        }
+      }
+    };
+    syncUser();
+  }, [isAuthenticated, reduxUser, getAccessTokenSilently, dispatch]);
 
   return null;
 }
@@ -33,7 +55,7 @@ function AuthRedirect() {
 export default function App() {
   return (
     <BrowserRouter>
-      <AuthRedirect />
+      <AuthManager />
       <Routes>
         <Route path="/" element={<LandingOrLoader />} />
         <Route

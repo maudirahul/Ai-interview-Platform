@@ -28,7 +28,7 @@ export default function StatsRow({ totalSessions, sessionBalance, avgScore, best
       />
       <StatCard
         label="avg score"
-        value={avgScore ? Math.round(avgScore) : "—"}
+        value={(avgScore !== null && avgScore !== undefined) ? Math.round(avgScore) : "—"}
         sub="out of 100"
       />
       <StatCard

@@ -46,7 +46,7 @@ export default function ReportsPage() {
   return (
     <div className="min-h-screen bg-bg text-[#f8faf8] font-sans">
       <Navbar />
-      <main className="px-10 py-7">
+      <main className="px-10 py-7 animate-page-fade">
         <div className="mb-6 flex items-end justify-between">
           <div>
             <div className="text-[11px] font-mono text-dim uppercase tracking-widest mb-2">

@@ -47,13 +47,15 @@ export default function HistoryPage() {
   return (
     <div className="min-h-screen bg-bg text-[#f8faf8] font-sans">
       <Navbar />
-      <main className="px-10 py-7">
+      <main className="px-10 py-7 animate-page-fade">
         <div className="mb-6 flex items-end justify-between">
           <div>
             <div className="text-[11px] font-mono text-dim uppercase tracking-widest mb-2">
               interview history
             </div>
-            <h1 className="text-3xl font-semibold tracking-tight">All sessions</h1>
+            <h1 className="text-3xl font-semibold tracking-tight">
+              All sessions
+            </h1>
           </div>
           <button
             onClick={() => navigate("/select-role")}
@@ -69,7 +71,9 @@ export default function HistoryPage() {
               <div className="w-7 h-7 border-2 border-green/20 border-t-green rounded-full animate-spin" />
             </div>
           ) : error ? (
-            <div className="text-sm text-rose-400 font-mono text-center py-10">{error}</div>
+            <div className="text-sm text-rose-400 font-mono text-center py-10">
+              {error}
+            </div>
           ) : sessions.length === 0 ? (
             <div className="text-sm text-dim font-mono text-center py-10">
               No interviews yet. Start a session to build your history.
@@ -79,7 +83,9 @@ export default function HistoryPage() {
               {sessions.map((session) => (
                 <button
                   key={session._id}
-                  onClick={() => session.reportId && navigate(`/report/${session._id}`)}
+                  onClick={() =>
+                    session.reportId && navigate(`/report/${session._id}`)
+                  }
                   disabled={!session.reportId}
                   className="w-full text-left flex items-center justify-between gap-4 px-4 py-3 bg-surface2 rounded-lg border border-white/6 hover:border-green-DEFAULT/20 transition-colors disabled:cursor-default disabled:hover:border-white/6"
                 >
@@ -88,14 +94,21 @@ export default function HistoryPage() {
                       {session.roleLabel || session.role || "Interview session"}
                     </div>
                     <div className="text-[11px] text-dim font-mono mt-1">
-                      {session.level || "level"} · {timeAgo(session.completedAt || session.startedAt)}
+                      {session.level || "level"} ·{" "}
+                      {timeAgo(session.completedAt || session.startedAt)}
                     </div>
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
-                    <span className={`text-[11px] font-mono px-2 py-1 rounded ${statusClass(session.status)}`}>
+                    <span
+                      className={`text-[11px] font-mono px-2 py-1 rounded ${statusClass(session.status)}`}
+                    >
                       {session.status?.replace("_", " ") || "unknown"}
                     </span>
-                    <span className="text-[11px] font-mono text-muted">
+                    <span
+                      className={`text-[11px] font-mono text-muted ${
+                        session.reportId ? "cursor-pointer" : "cursor-default"
+                      }`}
+                    >
                       {session.reportId ? "view report" : "no report"}
                     </span>
                   </div>
