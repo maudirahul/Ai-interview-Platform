@@ -22,6 +22,7 @@ app.use("/api/transcription", require("./routes/transcription.routes"));
 app.use("/api/evaluation", require("./routes/evaluation.routes"));
 app.use("/api/reports", require("./routes/report.routes"));
 app.use("/api/elevenlabs", require("./routes/tts.routes"));
+app.use("/api/payments", require("./routes/payment.routes"));
 // app.use('/api/admin',         require('./routes/admin.routes'));
 
 app.use(errorMiddleware);

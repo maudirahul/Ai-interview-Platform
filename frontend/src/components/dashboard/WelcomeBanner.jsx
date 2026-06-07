@@ -1,6 +1,8 @@
-export default function WelcomeBanner({ name, sessionsThisWeek, plan }) {
-  const weeklyLimit = plan === "free" ? 5 : null;
-  const remaining = weeklyLimit ? weeklyLimit - sessionsThisWeek : null;
+import { useDispatch } from "react-redux";
+import { openPricing } from "../../store/slices/authSlice";
+
+export default function WelcomeBanner({ name, sessionBalance }) {
+  const dispatch = useDispatch();
   const firstName = name?.split(" ")[0] || "there";
 
   const getGreeting = () => {
@@ -17,15 +19,22 @@ export default function WelcomeBanner({ name, sessionsThisWeek, plan }) {
           {getGreeting()},{" "}
           <span className="text-green">{firstName}</span>
         </h2>
-        <div className="flex items-center gap-1.5 bg-green-muted border border-green-DEFAULT/20 rounded-full px-3 py-1 text-[11px] text-green-DEFAULT font-mono">
-          <div className="w-1.5 h-1.5 rounded-full bg-green-DEFAULT" />
-          {plan === "free" ? "free plan" : "pro plan"}
+        <div 
+          onClick={() => dispatch(openPricing())}
+          className="flex items-center gap-1.5 bg-green-muted border border-green/20 rounded-full px-3 py-1 text-[11px] text-green font-mono cursor-pointer hover:bg-green/20 transition-colors"
+        >
+          <div className="w-1.5 h-1.5 rounded-full bg-green" />
+          Buy credits
         </div>
       </div>
       <p className="text-sm text-muted">
-        {remaining !== null
-          ? `You have ${remaining} session${remaining !== 1 ? "s" : ""} left this week. Keep practicing.`
-          : "You have unlimited sessions. Keep practicing."}
+        You have <span className="text-[#f8faf8] font-semibold">{sessionBalance}</span> session credit{sessionBalance !== 1 ? "s" : ""} left.{" "}
+        <span 
+          onClick={() => dispatch(openPricing())}
+          className="text-green hover:underline cursor-pointer font-medium"
+        >
+          Top up now
+        </span>
       </p>
     </div>
   );

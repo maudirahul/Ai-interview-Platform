@@ -127,3 +127,16 @@ export const getQuestionAudio = async (token, text) => {
   const blob = await res.blob();
   return URL.createObjectURL(blob);
 };
+
+// ── PAYMENTS (RAZORPAY) ────────────────────────────────
+export const createRazorpayOrder = (token, { packSize }) =>
+  request("/payments/order", token, {
+    method: "POST",
+    body: JSON.stringify({ packSize }),
+  });
+
+export const verifyRazorpayPayment = (token, body) =>
+  request("/payments/verify", token, {
+    method: "POST",
+    body: JSON.stringify(body),
+  });

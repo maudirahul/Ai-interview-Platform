@@ -49,6 +49,11 @@ const userSchema = new mongoose.Schema(
       default: 0,
     },
 
+    sessionBalance: {
+      type: Number,
+      default: 3,
+    },
+
     preferredRole: {
       type: String,
       default: null,

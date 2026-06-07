@@ -20,9 +20,9 @@ const createSession = async (userId, role, roleLabel, level) => {
     user.sessionsThisWeek = 0;
   }
 
-  // Free tier — 1 session per week
-  if (user.plan === "free" && user.sessionsThisWeek >= 1) {
-    throw new Error("FREE_TIER_LIMIT");
+  // Check session balance
+  if (user.sessionBalance <= 0) {
+    throw new Error("INSUFFICIENT_SESSIONS");
   }
 
   // Build question set
@@ -58,10 +58,11 @@ const createSession = async (userId, role, roleLabel, level) => {
   // Update role served count
   await incrementServedCount(role, level);
 
-  // Update user preferred role and level
+  // Update user preferred role and level, and decrement session credits
   await User.findByIdAndUpdate(userId, {
     preferredRole: role,
     preferredLevel: level,
+    $inc: { sessionBalance: -1 }
   });
 
   return session;

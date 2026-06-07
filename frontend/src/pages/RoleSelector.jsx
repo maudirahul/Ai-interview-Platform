@@ -4,6 +4,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useSelector, useDispatch } from "react-redux";
 import * as api from "../services/api";
 import { setSession } from "../store/slices/sessionSlice";
+import { openPricing } from "../store/slices/authSlice";
+import PricingModal from "../components/dashboard/PricingModal";
 
 const ROLES = [
   {
@@ -101,6 +103,10 @@ export default function RoleSelector() {
 
   const handleBeginInterview = async () => {
     if (starting) return;
+    if (reduxUser && reduxUser.sessionBalance <= 0) {
+      dispatch(openPricing());
+      return;
+    }
     try {
       setStarting(true);
       setError(null);
@@ -332,6 +338,7 @@ export default function RoleSelector() {
           </button>
         </div>
       </div>
+      <PricingModal />
     </div>
   );
 }

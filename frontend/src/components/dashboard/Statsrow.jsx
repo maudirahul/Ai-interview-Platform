@@ -12,9 +12,7 @@ function StatCard({ label, value, sub, accent }) {
   );
 }
 
-export default function StatsRow({ totalSessions, sessionsThisWeek, avgScore, bestGrade, bestGradeRole, plan }) {
-  const weeklyLimit = plan === "free" ? 5 : "∞";
-
+export default function StatsRow({ totalSessions, sessionBalance, avgScore, bestGrade, bestGradeRole }) {
   return (
     <div className="grid grid-cols-4 gap-2.5 mb-6">
       <StatCard
@@ -23,9 +21,9 @@ export default function StatsRow({ totalSessions, sessionsThisWeek, avgScore, be
         sub="all time"
       />
       <StatCard
-        label="this week"
-        value={sessionsThisWeek ?? 0}
-        sub={`of ${weeklyLimit} allowed`}
+        label="session credits"
+        value={sessionBalance ?? 0}
+        sub="credits remaining"
         accent
       />
       <StatCard

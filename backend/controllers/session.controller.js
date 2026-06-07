@@ -38,10 +38,10 @@ const createSession = async (req, res, next) => {
     });
 
   } catch (err) {
-    if (err.message === 'FREE_TIER_LIMIT') {
+    if (err.message === 'INSUFFICIENT_SESSIONS') {
       return res.status(403).json({
         success: false,
-        message: 'Free tier limit reached — upgrade to continue',
+        message: 'You have run out of session credits. Please purchase a pack to continue.',
       });
     }
     if (err.message === 'QUESTIONS_NOT_AVAILABLE') {

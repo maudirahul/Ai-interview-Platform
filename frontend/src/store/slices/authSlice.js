@@ -5,6 +5,7 @@ const authSlice = createSlice({
   initialState: {
     user: null,
     isAuthenticated: false,
+    isPricingOpen: false,
   },
   reducers: {
     setUser(state, action) {
@@ -15,8 +16,14 @@ const authSlice = createSlice({
       state.user = null;
       state.isAuthenticated = false;
     },
+    openPricing(state) {
+      state.isPricingOpen = true;
+    },
+    closePricing(state) {
+      state.isPricingOpen = false;
+    },
   },
 });
 
-export const { setUser, clearUser } = authSlice.actions;
+export const { setUser, clearUser, openPricing, closePricing } = authSlice.actions;
 export default authSlice.reducer;

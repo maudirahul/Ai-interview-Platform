@@ -1,6 +1,8 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
+import { openPricing } from "../../store/slices/authSlice";
+import PricingModal from "./PricingModal";
 
 const navItems = [
   { label: "Dashboard", path: "/dashboard" },
@@ -12,6 +14,7 @@ export default function Navbar() {
   const { user: auth0User, isAuthenticated, isLoading, logout } = useAuth0();
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
   const reduxUser = useSelector((state) => state.auth.user);
   const activeUser = auth0User || reduxUser;
 
@@ -81,6 +84,16 @@ export default function Navbar() {
           </div>
         )}
 
+        {reduxUser && (
+          <div
+            onClick={() => dispatch(openPricing())}
+            className="flex items-center gap-1 bg-green-muted border border-green/20 rounded-lg px-3 py-1.5 text-xs text-green font-semibold cursor-pointer hover:bg-green/20 transition-all font-mono"
+            title="Buy Credits"
+          >
+            ⚡ {reduxUser.sessionBalance ?? 0} Credits
+          </div>
+        )}
+
         <button
           onClick={() => navigate("/select-role")}
           className="bg-[#4ade80] text-[15px] text-xs font-semibold px-3.5 py-1.5 rounded-lg hover:opacity-90 transition-opacity cursor-pointer"
@@ -97,6 +110,7 @@ export default function Navbar() {
           Log out
         </button>
       </div>
+      <PricingModal />
     </nav>
   );
 }

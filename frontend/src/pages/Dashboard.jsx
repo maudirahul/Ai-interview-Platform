@@ -120,18 +120,16 @@ export default function Dashboard() {
       <div className="px-10 py-7">
         <WelcomeBanner
           name={displayName}
-          sessionsThisWeek={user?.sessionsThisWeek ?? 0}
-          plan={user?.plan ?? "free"}
+          sessionBalance={user?.sessionBalance ?? 0}
         />
         <StatsRow
           totalSessions={user?.totalSessions ?? 0}
-          sessionsThisWeek={user?.sessionsThisWeek ?? 0}
+          sessionBalance={user?.sessionBalance ?? 0}
           avgScore={avgScore}
           bestGrade={bestReport?.grade}
           bestGradeRole={
             bestReport ? `${bestReport.roleLabel} · ${bestReport.level}` : null
           }
-          plan={user?.plan ?? "free"}
         />
         <div className="grid grid-cols-2 gap-3 mb-3">
           <RecentSessions sessions={sessions} />
