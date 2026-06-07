@@ -1,6 +1,7 @@
 const Razorpay = require("razorpay");
 const crypto = require("crypto");
 const User = require("../models/User");
+const Transaction = require("../models/Transaction");
 
 // Initialize Razorpay SDK.
 // Make sure to handle missing key environment variables gracefully.
@@ -85,8 +86,20 @@ const verifyPayment = async (req, res, next) => {
       });
     }
 
-    // Increment user session balance
     const packCount = parseInt(packSize, 10);
+    const amount = PACK_PRICES[packCount] || 0;
+
+    // Create successful transaction record
+    await Transaction.create({
+      userId: req.user._id,
+      razorpayOrderId: razorpay_order_id,
+      razorpayPaymentId: razorpay_payment_id,
+      amount,
+      packSize: packCount,
+      status: "success",
+    });
+
+    // Increment user session balance
     const updatedUser = await User.findByIdAndUpdate(
       req.user._id,
       {
@@ -107,7 +120,24 @@ const verifyPayment = async (req, res, next) => {
   }
 };
 
+const getTransactionHistory = async (req, res, next) => {
+  try {
+    const transactions = await Transaction.find({ userId: req.user._id })
+      .sort({ createdAt: -1 })
+      .limit(50);
+
+    res.status(200).json({
+      success: true,
+      transactions,
+    });
+  } catch (err) {
+    console.error("[Get Transaction History Error]:", err);
+    next(err);
+  }
+};
+
 module.exports = {
   createOrder,
-  verifyPayment
+  verifyPayment,
+  getTransactionHistory
 };

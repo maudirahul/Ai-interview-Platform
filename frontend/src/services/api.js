@@ -140,3 +140,6 @@ export const verifyRazorpayPayment = (token, body) =>
     method: "POST",
     body: JSON.stringify(body),
   });
+
+export const getTransactionHistory = (token) =>
+  request("/payments/history", token);

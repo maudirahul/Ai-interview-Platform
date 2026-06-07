@@ -15,6 +15,7 @@ import RoleSelector from "./pages/RoleSelector";
 import InterviewRoom from "./pages/InterviewRoom";
 import ReportPage from "./pages/ReportPage";
 import ReportsPage from "./pages/ReportsPage";
+import TransactionsPage from "./pages/TransactionsPage";
 import NotFound from "./components/common/NotFound";
 
 function AuthRedirect() {
@@ -84,6 +85,14 @@ export default function App() {
           }
         />
         <Route path="/share/:shareToken" element={<ReportPage shared />} />
+        <Route
+          path="/transactions"
+          element={
+            <ProtectedRoute>
+              <TransactionsPage />
+            </ProtectedRoute>
+          }
+        />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

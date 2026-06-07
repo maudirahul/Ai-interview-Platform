@@ -19,13 +19,15 @@ export default function WelcomeBanner({ name, sessionBalance }) {
           {getGreeting()},{" "}
           <span className="text-green">{firstName}</span>
         </h2>
-        <div 
+        <button
           onClick={() => dispatch(openPricing())}
-          className="flex items-center gap-1.5 bg-green-muted border border-green/20 rounded-full px-3 py-1 text-[11px] text-green font-mono cursor-pointer hover:bg-green/20 transition-colors"
+          className="flex items-center gap-1 bg-green hover:bg-green/90 text-bg text-[11px] font-bold px-3.5 py-1.5 rounded-lg shadow-lg shadow-green/10 transition-all duration-200 hover:-translate-y-0.5 cursor-pointer font-sans"
         >
-          <div className="w-1.5 h-1.5 rounded-full bg-green" />
-          Buy credits
-        </div>
+          <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+          </svg>
+          Buy Credits
+        </button>
       </div>
       <p className="text-sm text-muted">
         You have <span className="text-[#f8faf8] font-semibold">{sessionBalance}</span> session credit{sessionBalance !== 1 ? "s" : ""} left.{" "}

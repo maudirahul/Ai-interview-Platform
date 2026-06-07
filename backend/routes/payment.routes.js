@@ -6,5 +6,6 @@ const paymentController = require('../controllers/payment.controller');
 // All payment routes are protected
 router.post('/order', validateToken, attachUser, paymentController.createOrder);
 router.post('/verify', validateToken, attachUser, paymentController.verifyPayment);
+router.get('/history', validateToken, attachUser, paymentController.getTransactionHistory);
 
 module.exports = router;

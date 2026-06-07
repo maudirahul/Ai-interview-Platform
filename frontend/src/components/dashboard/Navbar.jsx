@@ -8,6 +8,7 @@ const navItems = [
   { label: "Dashboard", path: "/dashboard" },
   { label: "History", path: "/history" },
   { label: "Reports", path: "/reports" },
+  { label: "Transactions", path: "/transactions" },
 ];
 
 export default function Navbar() {
