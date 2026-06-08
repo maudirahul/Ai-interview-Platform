@@ -50,7 +50,7 @@ export default function Navbar() {
           </svg>
         </div>
         <span className="text-[16px] font-semibold tracking-tight text-[#f8faf8]">
-          PrepAI
+          NextRound
         </span>
       </div>
 

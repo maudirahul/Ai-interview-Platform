@@ -30,7 +30,7 @@ export default function Navbar() {
           </div>
 
           <span className="text-[15px] font-semibold tracking-[-0.4px] text-white">
-            PrepAI
+            NextRound
           </span>
         </div>
 

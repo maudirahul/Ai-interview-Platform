@@ -51,11 +51,11 @@ export default function MotionDetector({ webcamRef, isActive }) {
         cocoRef.current = objectDetector;
 
         console.log(
-          "✅ [PrepAI AI Engine]: High-speed integrity engine active and listening.",
+          "✅ [NextRound AI Engine]: High-speed integrity engine active and listening.",
         );
         startDetection();
       } catch (err) {
-        console.error("❌ [PrepAI AI Engine] Initialization failure:", err);
+        console.error("❌ [NextRound AI Engine] Initialization failure:", err);
       }
     };
 

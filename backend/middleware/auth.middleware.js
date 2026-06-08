@@ -7,7 +7,8 @@ const validateToken = auth({
   issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL,
 });
 
-// The custom namespace we configured in the Auth0 Action
+// The custom namespace we configured in the Auth0 Action. 
+// NOTE: Keep this as 'https://prepai.com' unless you update your Auth0 Custom Claims Action in the Auth0 console!
 const NAMESPACE = 'https://prepai.com';
 
 // Attach user to request

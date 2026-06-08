@@ -76,7 +76,7 @@ export default function PermissionCheck({ onComplete }) {
               <path d="M1.5 6l2.5 2.5 6-6" />
             </svg>
           </div>
-          <span className="text-sm font-semibold">PrepAI</span>
+          <span className="text-sm font-semibold">NextRound</span>
         </div>
         <div className="text-xs font-mono text-[#8a9e8e]">
           MERN Stack · Fresher

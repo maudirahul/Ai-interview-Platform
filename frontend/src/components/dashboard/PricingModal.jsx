@@ -66,7 +66,7 @@ export default function PricingModal() {
         key: razorpayKey,
         amount: amount,
         currency: currency,
-        name: "PrepAI",
+        name: "NextRound",
         description: `Purchase ${pack.packSize} Session Credits`,
         order_id: orderId,
         handler: async function (response) {

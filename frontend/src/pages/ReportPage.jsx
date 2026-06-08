@@ -100,7 +100,7 @@ export default function ReportPage({ shared = false }) {
               <path d="M1.5 6l2.5 2.5 6-6" />
             </svg>
           </div>
-          <span className="text-sm font-bold tracking-tight">PrepAI</span>
+          <span className="text-sm font-bold tracking-tight">NextRound</span>
         </div>
 
         <div className={`flex items-center gap-3 ${shared ? "hidden" : ""}`}>

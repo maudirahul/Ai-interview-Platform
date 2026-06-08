@@ -176,7 +176,7 @@ export default function RoleSelector() {
             </svg>
           </div>
           <span className="text-[16px] font-semibold tracking-tight">
-            PrepAI
+            NextRound
           </span>
         </div>
         {isLoading ? (
