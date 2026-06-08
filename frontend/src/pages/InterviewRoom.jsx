@@ -458,7 +458,7 @@ export default function InterviewRoom() {
                 onClick={handleSkip}
                 className="text-[11px] text-[#8a9e8e] bg-transparent border border-white/10 rounded-lg px-3 py-1.5 hover:border-white/20 transition-colors cursor-pointer"
               >
-                skip question →
+                Next Question →
               </button>
             )}
           </div>
