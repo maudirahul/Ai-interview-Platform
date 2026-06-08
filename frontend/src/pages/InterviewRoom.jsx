@@ -413,7 +413,7 @@ export default function InterviewRoom() {
       {/* ROOM SPLIT VIEW */}
       <div className="flex flex-1" style={{ height: "calc(100vh - 53px)" }}>
         {/* LEFT PANEL */}
-        <div className="w-64 border-r border-white/6 flex flex-col items-center px-5 py-6 gap-5 shrink-0">
+        <div className="w-[350px] border-r border-white/6 flex flex-col items-center px-6 py-6 gap-6 shrink-0">
           <AvatarPlayer
             text={interview.currentQuestionText}
             onSpeakingEnd={handleSpeakingEnd}

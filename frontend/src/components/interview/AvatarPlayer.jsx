@@ -130,7 +130,7 @@ export default function AvatarPlayer({ text, playSignal = 0, onSpeakingEnd }) {
   }, [text, playSignal, hasInteracted]);
 
   return (
-    <div className="w-full flex flex-col items-center justify-center p-3 bg-[#0d1511] border border-white/5 rounded-xl relative select-none overflow-hidden shrink-0 h-auto py-3">
+    <div className="w-full flex flex-col items-center justify-center p-4 bg-[#0d1511] border border-white/5 rounded-xl relative select-none overflow-hidden shrink-0 h-auto">
       {!hasInteracted ? (
         <div className="absolute inset-0 flex flex-col items-center justify-center bg-neutral-950 rounded-xl z-40 p-2 text-center border border-white/5">
           <button
@@ -141,7 +141,7 @@ export default function AvatarPlayer({ text, playSignal = 0, onSpeakingEnd }) {
           </button>
         </div>
       ) : (
-        <div className="w-full aspect-video relative z-10 rounded-xl overflow-hidden bg-black/10">
+        <div className="w-full aspect-[4/3] relative z-10 rounded-xl overflow-hidden bg-black/10">
           <InterviewerAvatar isSpeaking={isSpeaking} />
         </div>
       )}
