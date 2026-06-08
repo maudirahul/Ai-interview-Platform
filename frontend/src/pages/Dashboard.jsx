@@ -12,7 +12,7 @@ import { setUser } from "../store/slices/authSlice";
 import * as api from "../services/api";
 
 export default function Dashboard() {
-  const { getAccessTokenSilently, user: auth0User } = useAuth0();
+  const { getAccessTokenSilently, user: auth0User, loginWithRedirect } = useAuth0();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
   const [sessions, setSessions] = useState([]);
@@ -76,6 +76,15 @@ export default function Dashboard() {
         }
       } catch (err) {
         console.error("Dashboard fetch error:", err);
+        if (
+          err.error === "login_required" ||
+          err.error === "invalid_grant" ||
+          err.message?.includes("Missing Refresh Token") ||
+          err.message?.includes("invalid_grant") ||
+          err.message?.includes("Login required")
+        ) {
+          loginWithRedirect();
+        }
       } finally {
         setLoading(false);
       }

@@ -22,7 +22,7 @@ import { setUser } from "./store/slices/authSlice";
 import * as api from "./services/api";
 
 function AuthManager() {
-  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
+  const { isAuthenticated, getAccessTokenSilently, loginWithRedirect } = useAuth0();
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
@@ -43,11 +43,21 @@ function AuthManager() {
           }
         } catch (err) {
           console.error("Failed to sync user details:", err);
+          // If silent authentication fails due to session expiry or missing/invalid refresh tokens, redirect to login
+          if (
+            err.error === "login_required" ||
+            err.error === "invalid_grant" ||
+            err.message?.includes("Missing Refresh Token") ||
+            err.message?.includes("invalid_grant") ||
+            err.message?.includes("Login required")
+          ) {
+            loginWithRedirect();
+          }
         }
       }
     };
     syncUser();
-  }, [isAuthenticated, reduxUser, getAccessTokenSilently, dispatch]);
+  }, [isAuthenticated, reduxUser, getAccessTokenSilently, dispatch, loginWithRedirect]);
 
   return null;
 }
