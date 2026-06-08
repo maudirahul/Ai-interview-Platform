@@ -24,7 +24,7 @@ export default function Footer() {
             </svg>
           </div>
           <span className="text-sm font-semibold tracking-tight text-[#f8faf8]">
-            PrepAI
+            NextRound
           </span>
           <span className="text-xs text-dim font-mono ml-2">
             © {year} All rights reserved.
