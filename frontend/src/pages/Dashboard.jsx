@@ -8,6 +8,7 @@ import RecentSessions from "../components/dashboard/RecentSessions";
 import ScoreBreakdown from "../components/dashboard/ScoreBreakdown";
 import RolesPicker from "../components/dashboard/RolePicker";
 import StartCard from "../components/dashboard/StartCard";
+import Footer from "../components/landingPage/Footer";
 import { setUser } from "../store/slices/authSlice";
 import * as api from "../services/api";
 
@@ -155,6 +156,7 @@ export default function Dashboard() {
         <RolesPicker />
         <StartCard />
       </div>
+      <Footer />
     </div>
   );
 }

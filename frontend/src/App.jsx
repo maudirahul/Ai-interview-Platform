@@ -17,6 +17,10 @@ import InterviewRoom from "./pages/InterviewRoom";
 import ReportPage from "./pages/ReportPage";
 import ReportsPage from "./pages/ReportsPage";
 import TransactionsPage from "./pages/TransactionsPage";
+import ContactPage from "./pages/ContactPage";
+import PrivacyPage from "./pages/PrivacyPage";
+import TermsPage from "./pages/TermsPage";
+import RefundsPage from "./pages/RefundsPage";
 import NotFound from "./components/common/NotFound";
 import { setUser } from "./store/slices/authSlice";
 import * as api from "./services/api";
@@ -125,6 +129,10 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/privacy" element={<PrivacyPage />} />
+        <Route path="/terms" element={<TermsPage />} />
+        <Route path="/refunds" element={<RefundsPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

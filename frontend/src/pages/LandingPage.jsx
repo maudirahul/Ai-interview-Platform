@@ -4,6 +4,7 @@ import HowItWorks from "../components/landingPage/HowItWorks";
 import Roles from "../components/landingPage/Roles";
 import ReportPreview from "../components/landingPage/ReportPreview";
 import CallToAction from "../components/landingPage/CallToAction";
+import Footer from "../components/landingPage/Footer";
 
 export default function LandingPage() {
   return (
@@ -33,6 +34,7 @@ export default function LandingPage() {
       <ReportPreview />
 
       <CallToAction />
+      <Footer />
     </div>
   );
 }
