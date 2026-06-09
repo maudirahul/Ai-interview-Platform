@@ -73,3 +73,29 @@ button { font-family: 'Inter', sans-serif; }
     opacity: 1;
   }
 }
+
+/* Custom Premium Scrollbar Styles */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0f0d;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(74, 222, 128, 0.15);
+  border-radius: 9999px;
+  border: 2px solid #0a0f0d;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(74, 222, 128, 0.35);
+}
+
+/* Firefox scrollbar support */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(74, 222, 128, 0.15) #0a0f0d;
+}
