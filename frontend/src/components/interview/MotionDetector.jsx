@@ -23,11 +23,41 @@ export default function MotionDetector({ webcamRef, isActive }) {
     integrityScore: 100,
   });
 
+  // State machine tracking to count events only on discrete start transitions
+  const isLookingAwayRef = useRef(false);
+  const isPhoneDetectedRef = useRef(false);
+  const isMultiplePersonRef = useRef(false);
+
   useEffect(() => {
     if (!isActive) return;
 
+    // Reset local refs on monitoring active start to ensure a fresh session
+    countsRef.current = {
+      lookAwayCount: 0,
+      phoneDetectedCount: 0,
+      multiplePersonCount: 0,
+      integrityScore: 100,
+    };
+    violationBuffersRef.current = {
+      lookAwayFrames: 0,
+      phoneFrames: 0,
+      multiplePersonFrames: 0,
+    };
+    isLookingAwayRef.current = false;
+    isPhoneDetectedRef.current = false;
+    isMultiplePersonRef.current = false;
+
     const loadDetector = async () => {
       try {
+        // Cache optimization check: Reuse models if already loaded
+        if (detectorRef.current && cocoRef.current) {
+          console.log(
+            "✅ [NextRound AI Engine]: Re-using cached models.",
+          );
+          startDetection();
+          return;
+        }
+
         // 1. Dynamic Load TensorFlow & Face Mesh Dependencies
         const vision =
           await import("@tensorflow-models/face-landmarks-detection");
@@ -87,51 +117,44 @@ export default function MotionDetector({ webcamRef, isActive }) {
 
         // Rule 1: Multiple Persons Detected
         if (faces.length > 1) {
-          violationBuffersRef.current.multiplePersonFrames += 1;
-          console.log(
-            `⚠️ [Face Buffer]: Multiple faces spotted. Buffer: ${violationBuffersRef.current.multiplePersonFrames}/3`,
+          violationBuffersRef.current.multiplePersonFrames = Math.min(
+            3,
+            violationBuffersRef.current.multiplePersonFrames + 1
           );
 
           if (violationBuffersRef.current.multiplePersonFrames >= 3) {
-            countsRef.current.multiplePersonCount += 1;
-            countsRef.current.integrityScore = Math.max(
-              0,
-              countsRef.current.integrityScore - 15,
-            );
-            stateChanged = true;
-            violationBuffersRef.current.multiplePersonFrames = 0; // Reset
-            console.warn("🚨 [VIOLATION COMMIT]: Multiple persons confirmed!");
+            if (!isMultiplePersonRef.current) {
+              isMultiplePersonRef.current = true;
+              countsRef.current.multiplePersonCount += 1;
+              countsRef.current.integrityScore = Math.max(
+                0,
+                countsRef.current.integrityScore - 15,
+              );
+              stateChanged = true;
+              console.warn("🚨 [VIOLATION COMMIT]: Multiple persons confirmed!");
+            }
           }
         } else {
           violationBuffersRef.current.multiplePersonFrames = Math.max(
             0,
             violationBuffersRef.current.multiplePersonFrames - 1,
           );
-        }
-
-        // Rule 2: Hard Screen Loss (Left frame entirely)
-        if (faces.length === 0) {
-          violationBuffersRef.current.lookAwayFrames += 1;
-          console.log(
-            `⚠️ [Face Buffer]: No face in frame. Buffer: ${violationBuffersRef.current.lookAwayFrames}/4`,
-          );
-
-          if (violationBuffersRef.current.lookAwayFrames >= 4) {
-            countsRef.current.lookAwayCount += 1;
-            countsRef.current.integrityScore = Math.max(
-              0,
-              countsRef.current.integrityScore - 5,
-            );
-            stateChanged = true;
-            violationBuffersRef.current.lookAwayFrames = 0; // Reset
-            console.warn(
-              "🚨 [VIOLATION COMMIT]: Candidate completely left camera frame!",
-            );
+          if (violationBuffersRef.current.multiplePersonFrames === 0) {
+            if (isMultiplePersonRef.current) {
+              isMultiplePersonRef.current = false;
+              console.log("ℹ️ [VIOLATION END]: Multiple persons cleared.");
+            }
           }
         }
 
-        // Rule 3: Soft Gaze Divergence Leeway Adjustments
-        if (faces.length === 1) {
+        // Rule 2 & 3: Look Away (Hard Screen Loss & Soft Gaze Divergence)
+        let isCurrentlyLookingAway = false;
+        let lookAwayThreshold = 5;
+
+        if (faces.length === 0) {
+          isCurrentlyLookingAway = true;
+          lookAwayThreshold = 4;
+        } else if (faces.length === 1) {
           const keypoints = faces[0].keypoints;
           const nose =
             keypoints.find((k) => k.name === "noseTip") || keypoints[4];
@@ -145,31 +168,45 @@ export default function MotionDetector({ webcamRef, isActive }) {
             const deviation = Math.abs(nose.x - eyeMidX);
             const eyeWidth = Math.abs(leftEye.x - rightEye.x);
 
-            // 🎯 loosened look-away sensitivity multiplier from 0.6 to 0.88
+            // 🎯 loosened look-away sensitivity multiplier is 0.88
             if (deviation > eyeWidth * 0.88) {
-              violationBuffersRef.current.lookAwayFrames += 1;
-              console.log(
-                `⚠️ [Gaze Buffer]: Off-angle tracking active. Buffer: ${violationBuffersRef.current.lookAwayFrames}/5`,
-              );
+              isCurrentlyLookingAway = true;
+              lookAwayThreshold = 5;
+            }
+          }
+        }
 
-              if (violationBuffersRef.current.lookAwayFrames >= 5) {
-                countsRef.current.lookAwayCount += 1;
-                countsRef.current.integrityScore = Math.max(
-                  0,
-                  countsRef.current.integrityScore - 5,
-                );
-                stateChanged = true;
-                violationBuffersRef.current.lookAwayFrames = 0; // Reset
-                console.warn(
-                  "🚨 [VIOLATION COMMIT]: Candidate looked completely off-screen!",
-                );
-              }
-            } else {
-              // Smoothly decay buffer step count if candidate looks back to frame center
-              violationBuffersRef.current.lookAwayFrames = Math.max(
+        if (isCurrentlyLookingAway) {
+          violationBuffersRef.current.lookAwayFrames = Math.min(
+            lookAwayThreshold,
+            violationBuffersRef.current.lookAwayFrames + 1
+          );
+
+          if (violationBuffersRef.current.lookAwayFrames >= lookAwayThreshold) {
+            if (!isLookingAwayRef.current) {
+              isLookingAwayRef.current = true;
+              countsRef.current.lookAwayCount += 1;
+              countsRef.current.integrityScore = Math.max(
                 0,
-                violationBuffersRef.current.lookAwayFrames - 1,
+                countsRef.current.integrityScore - 5,
               );
+              stateChanged = true;
+              console.warn(
+                "🚨 [VIOLATION COMMIT]: Candidate look away detected!",
+              );
+            }
+          }
+        } else {
+          if (faces.length === 1) {
+            violationBuffersRef.current.lookAwayFrames = Math.max(
+              0,
+              violationBuffersRef.current.lookAwayFrames - 1,
+            );
+            if (violationBuffersRef.current.lookAwayFrames === 0) {
+              if (isLookingAwayRef.current) {
+                isLookingAwayRef.current = false;
+                console.log("ℹ️ [VIOLATION END]: Candidate looking back at screen.");
+              }
             }
           }
         }
@@ -178,13 +215,6 @@ export default function MotionDetector({ webcamRef, isActive }) {
         if (cocoRef.current) {
           const objects = await cocoRef.current.detect(video);
 
-          if (objects.length > 0) {
-            console.log(
-              "👁️ [AI Vision Scan Summary]:",
-              objects.map((o) => `${o.class} (${Math.round(o.score * 100)}%)`),
-            );
-          }
-
           // Extended array classes catch phones sideways or resting near ears
           const prohibitedDeviceClasses = ["cell phone", "remote", "book"];
           const phoneInFrame = objects.some((obj) =>
@@ -192,29 +222,36 @@ export default function MotionDetector({ webcamRef, isActive }) {
           );
 
           if (phoneInFrame) {
-            violationBuffersRef.current.phoneFrames += 1;
-            console.log(
-              `⚠️ [Device Buffer]: Prohibited object in frame. Buffer: ${violationBuffersRef.current.phoneFrames}/2`,
+            violationBuffersRef.current.phoneFrames = Math.min(
+              2,
+              violationBuffersRef.current.phoneFrames + 1
             );
 
             if (violationBuffersRef.current.phoneFrames >= 2) {
-              // Fires instantly (~600ms total latency)
-              countsRef.current.phoneDetectedCount += 1;
-              countsRef.current.integrityScore = Math.max(
-                0,
-                countsRef.current.integrityScore - 20,
-              );
-              stateChanged = true;
-              violationBuffersRef.current.phoneFrames = 0; // Reset
-              console.error(
-                "🚨 [CRITICAL VIOLATION COMMIT]: Smart Device Confirmed inside stream!",
-              );
+              if (!isPhoneDetectedRef.current) {
+                isPhoneDetectedRef.current = true;
+                countsRef.current.phoneDetectedCount += 1;
+                countsRef.current.integrityScore = Math.max(
+                  0,
+                  countsRef.current.integrityScore - 20,
+                );
+                stateChanged = true;
+                console.error(
+                  "🚨 [CRITICAL VIOLATION COMMIT]: Smart Device Confirmed inside stream!",
+                );
+              }
             }
           } else {
             violationBuffersRef.current.phoneFrames = Math.max(
               0,
               violationBuffersRef.current.phoneFrames - 1,
             );
+            if (violationBuffersRef.current.phoneFrames === 0) {
+              if (isPhoneDetectedRef.current) {
+                isPhoneDetectedRef.current = false;
+                console.log("ℹ️ [VIOLATION END]: Prohibited device removed.");
+              }
+            }
           }
         }
 
