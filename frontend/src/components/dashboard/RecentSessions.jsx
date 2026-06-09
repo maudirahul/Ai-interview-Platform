@@ -57,16 +57,9 @@ export default function RecentSessions({ sessions = [] }) {
               </div>
               <div className="flex items-center gap-2">
                 {s.reportId ? (
-                  <>
-                    <span
-                      className={`text-[11px] font-mono font-semibold px-2 py-0.5 rounded ${scorePillClass(s.overallScore)}`}
-                    >
-                      {s.overallScore ?? "—"}
-                    </span>
-                    <span className="text-[11px] text-dim font-mono">
-                      {s.grade ?? "—"}
-                    </span>
-                  </>
+                  <span className="text-[11px] text-green hover:underline font-mono">
+                    view report
+                  </span>
                 ) : (
                   <span className="text-[11px] text-dim font-mono italic">
                     {s.status === "in_progress" ? "in progress" : "no report"}
