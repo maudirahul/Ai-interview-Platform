@@ -98,6 +98,7 @@ const evaluateAnswer = async (
   transcript,
   answerDuration,
 ) => {
+  let content = "";
   try {
     const evaluateAnswerPrompt = require("../prompts/evaluateAnswer.prompt");
     const prompt = evaluateAnswerPrompt(
@@ -115,13 +116,16 @@ const evaluateAnswer = async (
       temperature: 0.3,
     });
 
-    const content = response.choices[0].message.content;
+    content = response.choices[0].message.content;
     const clean = content
       .replace(/```json/g, "")
       .replace(/```/g, "")
       .trim();
 
-    const parsedJson = JSON.parse(clean);
+    // Remove trailing commas to prevent JSON.parse from failing
+    const cleanedJson = clean.replace(/,\s*([\]}])/g, "$1");
+
+    const parsedJson = JSON.parse(cleanedJson);
 
     // Calculate secure total score
     const safeTotalScore =
@@ -136,7 +140,7 @@ const evaluateAnswer = async (
       (parsedJson.behavioral?.professionalism || 0);
 
     const normalizedEvaluation = {
-      totalScore: parsedJson.totalScore || safeTotalScore,
+      totalScore: safeTotalScore,
       feedback:
         parsedJson.feedback ||
         parsedJson.overallFeedback ||
@@ -182,6 +186,9 @@ const evaluateAnswer = async (
       "Evaluation error during OpenRouter call or JSON parsing:",
       err.message,
     );
+    if (content) {
+      console.error("Raw LLM response content was:", content);
+    }
     throw err;
   }
 };

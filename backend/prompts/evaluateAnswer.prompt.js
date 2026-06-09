@@ -19,6 +19,9 @@ CRITICAL EVALUATION MANDATE:
 - Grade ONLY what is explicitly stated in the candidate's transcript. Do NOT assume they know something just because it is in the ideal answer.
 - ZERO-TOLERANCE RULE: If the transcript is empty, completely irrelevant, or just says "I don't know", you MUST award 0 points for all Technical and Behavioral categories.
 - Penalize heavily for rambling, filler words, or confidently incorrect information.
+- AVOID GENERIC OR BOILERPLATE FEEDBACK: Do NOT use generic template phrases or cliché AI comments (e.g., "The candidate demonstrates a basic understanding but lacks depth" or "Needs to provide specific examples").
+- SPECIFIC & FACTUAL CORRECTIONS: In the feedback fields, reference exact concepts mentioned or missed in the candidate's transcript. Explain precisely what is technically correct or incorrect about their explanation.
+- RECONCILE SCORES WITH TRUTHY RESULTS: If an answer is highly accurate, complete, and contains specific examples, award full or near-full points for accuracy/depth/examples. Deduct points only when there is a clear, factual, and demonstrable deficiency in the transcript.
 
 Evaluate strictly using this scoring rubric:
 
@@ -40,7 +43,8 @@ BEHAVIORAL (25 points total):
 CRITICAL INSTRUCTIONS:
 1. Return ONLY a valid, parseable JSON object. No markdown, no code blocks.
 2. Escape any internal quotes inside your feedback strings.
-3. Keep feedback brutally honest, constructive, and concise (1-2 sentences max).
+3. Keep feedback brutally honest, constructive, specific, and concise (1-2 sentences max). Do not use boilerplate or cookie-cutter phrasing.
+
 
 Use EXACTLY this schema:000
 {
