@@ -37,9 +37,19 @@ const errorMiddleware = (err, req, res, next) => {
   }
 
   // Default server error
+  console.error("=== Express Unhandled Error ===");
+  console.error(err);
+  console.error("===============================");
+  
   res.status(err.status || 500).json({
     success: false,
-    message: err.message || 'Internal server error',
+    message: err.message || (typeof err === 'string' ? err : null) || 'Internal server error',
+    error: typeof err === 'object' ? {
+      message: err.message,
+      name: err.name,
+      stack: err.stack,
+      ...err
+    } : err
   });
 };
 
