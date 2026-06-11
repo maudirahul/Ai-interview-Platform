@@ -46,32 +46,26 @@ BEHAVIORAL (25 points total):
 
 CRITICAL INSTRUCTIONS:
 1. Return ONLY a valid, parseable JSON object. No markdown, no code blocks.
-2. Escape any internal quotes inside your feedback strings.
+2. NEVER use double quotes (") inside your feedback, highlight, or improvement text fields. If you need to quote a term, code, or phrase, use single quotes (') instead (e.g. 'expiry stacks').
 3. Keep feedback brutally honest, constructive, specific, and concise (1-2 sentences max). Do not use boilerplate or cookie-cutter phrasing.
 
 
-Use EXACTLY this schema:000
+Use EXACTLY this flat JSON schema:000
 {
   "totalScore": 0,
   "feedback": "Honest overall feedback for this question here.",
-  "technical": {
-    "accuracy": 0,
-    "depth": 0,
-    "problemSolving": 0,
-    "feedback": "Honest feedback here."
-  },
-  "communication": {
-    "clarity": 0,
-    "structure": 0,
-    "confidence": 0,
-    "feedback": "Honest feedback here."
-  },
-  "behavioral": {
-    "relevance": 0,
-    "examples": 0,
-    "professionalism": 0,
-    "feedback": "Honest feedback here."
-  },
+  "technical_accuracy": 0,
+  "technical_depth": 0,
+  "technical_problemSolving": 0,
+  "technical_feedback": "Honest technical feedback here.",
+  "communication_clarity": 0,
+  "communication_structure": 0,
+  "communication_confidence": 0,
+  "communication_feedback": "Honest communication feedback here.",
+  "behavioral_relevance": 0,
+  "behavioral_examples": 0,
+  "behavioral_professionalism": 0,
+  "behavioral_feedback": "Honest behavioral feedback here.",
   "highlight": "One thing done well (or 'None' if terrible).",
   "improvement": "The biggest critical failure.",
   "needsFollowUp": true

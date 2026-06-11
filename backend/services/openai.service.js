@@ -127,17 +127,27 @@ const evaluateAnswer = async (
 
     const parsedJson = JSON.parse(cleanedJson);
 
-    // Calculate secure total score
+    // Calculate secure total score supporting both nested and flat structures
+    const technicalAccuracy = parsedJson.technical_accuracy ?? parsedJson.technical?.accuracy ?? 0;
+    const technicalDepth = parsedJson.technical_depth ?? parsedJson.technical?.depth ?? 0;
+    const technicalProblemSolving = parsedJson.technical_problemSolving ?? parsedJson.technical?.problemSolving ?? 0;
+    const communicationClarity = parsedJson.communication_clarity ?? parsedJson.communication?.clarity ?? 0;
+    const communicationStructure = parsedJson.communication_structure ?? parsedJson.communication?.structure ?? 0;
+    const communicationConfidence = parsedJson.communication_confidence ?? parsedJson.communication?.confidence ?? 0;
+    const behavioralRelevance = parsedJson.behavioral_relevance ?? parsedJson.behavioral?.relevance ?? 0;
+    const behavioralExamples = parsedJson.behavioral_examples ?? parsedJson.behavioral?.examples ?? 0;
+    const behavioralProfessionalism = parsedJson.behavioral_professionalism ?? parsedJson.behavioral?.professionalism ?? 0;
+
     const safeTotalScore =
-      (parsedJson.technical?.accuracy || 0) +
-      (parsedJson.technical?.depth || 0) +
-      (parsedJson.technical?.problemSolving || 0) +
-      (parsedJson.communication?.clarity || 0) +
-      (parsedJson.communication?.structure || 0) +
-      (parsedJson.communication?.confidence || 0) +
-      (parsedJson.behavioral?.relevance || 0) +
-      (parsedJson.behavioral?.examples || 0) +
-      (parsedJson.behavioral?.professionalism || 0);
+      technicalAccuracy +
+      technicalDepth +
+      technicalProblemSolving +
+      communicationClarity +
+      communicationStructure +
+      communicationConfidence +
+      behavioralRelevance +
+      behavioralExamples +
+      behavioralProfessionalism;
 
     const normalizedEvaluation = {
       totalScore: safeTotalScore,
@@ -150,30 +160,33 @@ const evaluateAnswer = async (
       needsFollowUp: parsedJson.needsFollowUp || false,
 
       technical: {
-        accuracy: parsedJson.technical?.accuracy ?? 0,
-        depth: parsedJson.technical?.depth ?? 0,
-        problemSolving: parsedJson.technical?.problemSolving ?? 0,
+        accuracy: technicalAccuracy,
+        depth: technicalDepth,
+        problemSolving: technicalProblemSolving,
         feedback:
+          parsedJson.technical_feedback ||
           parsedJson.technical?.feedback ||
           parsedJson.technical?.comments ||
           "Technical response addressed standard parameters.",
       },
 
       communication: {
-        clarity: parsedJson.communication?.clarity ?? 0,
-        structure: parsedJson.communication?.structure ?? 0,
-        confidence: parsedJson.communication?.confidence ?? 0,
+        clarity: communicationClarity,
+        structure: communicationStructure,
+        confidence: communicationConfidence,
         feedback:
+          parsedJson.communication_feedback ||
           parsedJson.communication?.feedback ||
           parsedJson.communication?.comments ||
           "Pacing and presentation matched level baseline.",
       },
 
       behavioral: {
-        relevance: parsedJson.behavioral?.relevance ?? 0,
-        examples: parsedJson.behavioral?.examples ?? 0,
-        professionalism: parsedJson.behavioral?.professionalism ?? 0,
+        relevance: behavioralRelevance,
+        examples: behavioralExamples,
+        professionalism: behavioralProfessionalism,
         feedback:
+          parsedJson.behavioral_feedback ||
           parsedJson.behavioral?.feedback ||
           parsedJson.behavioral?.comments ||
           "Professional delivery aligned with core scenario goals.",
