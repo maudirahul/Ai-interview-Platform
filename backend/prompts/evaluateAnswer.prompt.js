@@ -19,10 +19,15 @@ CRITICAL EVALUATION MANDATE:
 - Grade ONLY what is explicitly stated in the candidate's transcript. Do NOT assume they know something just because it is in the ideal answer.
 - ZERO-TOLERANCE RULE: If the transcript is empty, completely irrelevant, or just says "I don't know", you MUST award 0 points for all Technical and Behavioral categories.
 - Penalize heavily for rambling, filler words, or confidently incorrect information.
-- AVOID GENERIC OR BOILERPLATE FEEDBACK: Do NOT use generic template phrases or cliché AI comments (e.g., "The candidate demonstrates a basic understanding but lacks depth" or "Needs to provide specific examples").
+- AVOID GENERIC OR BOILERPLATE FEEDBACK: Do NOT use generic template phrases or cliché AI comments in ANY field (e.g. do not say 'lacks structure', 'lacks depth', 'failed to provide examples', or 'used filler words' without pointing to the exact evidence in the transcript).
 - SPECIFIC & FACTUAL CORRECTIONS: In the feedback fields, reference exact concepts mentioned or missed in the candidate's transcript. Explain precisely what is technically correct or incorrect about their explanation.
+- GROUND ALL FEEDBACK FIELDS: 
+  * 'feedback': Must summarize specific strengths and weaknesses in the context of their specific response, referencing details they mentioned.
+  * 'technical_feedback': Must point out the exact technical details they correctly or incorrectly explained (e.g. quote their specific words like 'DFS across' or 'expiry stacks' and explain why they are wrong/right).
+  * 'communication_feedback': Must reference specific word choices, repetitive phrases, or exact filler words/awkward transitions they used (e.g. quote their usage of 'widgets', 'Rectangle hook', or grammatical issues).
+  * 'behavioral_feedback': Must directly reference the candidate's specific narrative or lack thereof, analyzing the exact example they tried to convey (e.g. their specific story about 'building an AI group project').
 - RECONCILE SCORES WITH TRUTHY RESULTS: If an answer is highly accurate, complete, and covers the core concepts, award full or near-full points for accuracy/depth/problem solving. Deduct points only when there is a clear, factual, and demonstrable deficiency in the transcript.
-- BE REALISTIC AND CONTEXT-AWARE: Do NOT deduct points for depth or accuracy if the candidate gave a complete and correct answer. Do not expect them to explain surrounding concepts in detail (e.g. if they mention BFS, do not penalize them for not explaining BFS itself, unless the question asks to). Grade them based on the standard expected of a professional at their level (${level}).
+- BE REALISTIC AND CONTEXT-AWARE: Do NOT deduct points for depth or accuracy if the candidate gave a complete and correct answer. Do not expect them to explain surrounding concepts in detail. Grade them based on the standard expected of a professional at their level (${level}).
 - DO NOT HALLUCINATE CRITICISM: Do NOT invent criticisms or deduct points just to satisfy the strict mandate. If the candidate's answer is completely accurate, concise, and structured, you must award full/near-full points.
 - FLEXIBLE GRADING FOR CONCISE ANSWERS: For short technical questions, full points can be awarded for Depth and Problem Solving if they covered the essential details without fluff. Do not penalize conciseness if the answer is complete.
 - CONTEXTUAL EXAMPLES GRADING: For purely technical/theoretical questions, do NOT require a personal/experience story. Award the full 10 points for Examples if they explain the concept clearly. Only require a personal/experience story if the question specifically asks for one (e.g. behavioral/experience questions).
@@ -50,7 +55,7 @@ CRITICAL INSTRUCTIONS:
 3. Keep feedback brutally honest, constructive, specific, and concise (1-2 sentences max). Do not use boilerplate or cookie-cutter phrasing.
 
 
-Use EXACTLY this flat JSON schema:000
+Use EXACTLY this flat JSON schema:
 {
   "totalScore": 0,
   "feedback": "Honest overall feedback for this question here.",
