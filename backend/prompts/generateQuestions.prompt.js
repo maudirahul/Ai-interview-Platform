@@ -20,7 +20,8 @@ Generate exactly ${count} practical technical questions for the "${category}" ro
 You MUST distribute these questions across the following core stack elements and language foundations:
 ${coreTopics.map((topic) => `- ${topic}`).join("\n")}
 
-Focus heavily on core language-level runtimes, syntax limits (scoping, closures, execution loops), memory handling, and real-world framework architectural quirks.`;
+Focus heavily on core language-level runtimes, syntax limits (scoping, closures, execution loops), memory handling, and real-world framework architectural quirks.
+🚨 CRITICAL BALANCE REQUIREMENT: You MUST ensure that at least 50% of the generated questions focus strictly on core programming language-level foundations (e.g., for JavaScript roles: closures, scopes, asynchronous event loop, prototypes, V8 memory; for Python roles: decorators, generators, GIL, asyncio; for Java: JVM memory, garbage collection, multithreading) rather than framework APIs or library features.`;
       break;
 
     case "dsa":

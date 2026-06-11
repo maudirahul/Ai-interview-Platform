@@ -130,6 +130,7 @@ const transcriptSchema = new mongoose.Schema(
         feedback: { type: String, default: null },
       },
       totalScore: { type: Number, default: 0 },
+      feedback: { type: String, default: null },
       highlight: { type: String, default: null },
       improvement: { type: String, default: null },
       needsFollowUp: { type: Boolean, default: false },
