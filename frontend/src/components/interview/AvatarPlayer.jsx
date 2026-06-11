@@ -82,6 +82,32 @@ export default function AvatarPlayer({ text, playSignal = 0, onSpeakingEnd }) {
     onSpeakingEndRef.current = onSpeakingEnd;
   }, [onSpeakingEnd]);
 
+  // Pre-load and cache system voices on mount to prevent the browser from falling back to default voice on first question
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.speechSynthesis) return;
+
+    // Trigger initial load
+    window.speechSynthesis.getVoices();
+
+    const handleVoicesChanged = () => {
+      window.speechSynthesis.getVoices();
+    };
+
+    if (window.speechSynthesis.addEventListener) {
+      window.speechSynthesis.addEventListener("voiceschanged", handleVoicesChanged);
+    } else {
+      window.speechSynthesis.onvoiceschanged = handleVoicesChanged;
+    }
+
+    return () => {
+      if (window.speechSynthesis.removeEventListener) {
+        window.speechSynthesis.removeEventListener("voiceschanged", handleVoicesChanged);
+      } else {
+        window.speechSynthesis.onvoiceschanged = null;
+      }
+    };
+  }, []);
+
   useEffect(() => {
     if (!text || !hasInteracted) return undefined;
 
