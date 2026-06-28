@@ -71,6 +71,16 @@ const STACKS = [
       "Deep Learning Architectures & Processing (TensorFlow/PyTorch, Neural Networks, NLP foundations)"
     ]
   },
+  {
+    role: "plsql_developer",
+    roleLabel: "PL/SQL Developer",
+    coreTopics: [
+      "PL/SQL Language Fundamentals (Anonymous blocks, Stored Procedures, Functions, Packages, Triggers)",
+      "Advanced SQL & Query Optimization (Execution plans, Indexes, Partitioning, Analytic functions, CTEs)",
+      "Cursors & Collections (Implicit/Explicit cursors, REF CURSOR, Bulk COLLECT, FORALL, Associative Arrays)",
+      "Oracle Database Internals & Performance Tuning (Undo/Redo management, Locking mechanisms, DBMS packages, Exception handling)"
+    ]
+  },
 ];
 
 const LEVELS = ["fresher", "mid", "senior"];

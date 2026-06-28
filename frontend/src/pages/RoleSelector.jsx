@@ -50,6 +50,12 @@ const ROLES = [
     icon: "🧠", 
     label: "AI ML" 
   },
+  {
+    id: "plsql_developer",
+    title: "PL/SQL Dev",
+    icon: "🗄️",
+    label: "PL/SQL Developer",
+  },
 ];
 
 const LEVELS = [
