@@ -62,7 +62,7 @@ export default function Hero() {
         style={fadeIn(420)}
       >
         {[
-          { val: "7", unit: "Roles", lbl: "available now" },
+          { val: "8", unit: "Roles", lbl: "available now" },
           { val: "10", unit: "Questions", lbl: "per session" },
           { val: "3", unit: "Levels", lbl: "fresher · mid · senior" },
         ].map((s, idx) => (
