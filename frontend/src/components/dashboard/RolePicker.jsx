@@ -8,6 +8,7 @@ const ROLES = [
   { id: "fullstack_developer", label: "Full Stack" },
   { id: "java_developer", label: "Java Developer" },
   { id: "ai_ml", label: "AI ML" },
+  { id: "plsql_developer", label: "PL/SQL Developer" },
 ];
 
 export default function RolesPicker() {

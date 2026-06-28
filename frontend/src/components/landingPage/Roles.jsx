@@ -6,6 +6,7 @@ const roles = [
   { id: "fullstack_developer", label: "Full Stack" },
   { id: "java_developer", label: "Java Developer" },
   { id: "ai_ml", label: "AI ML" },
+  { id: "plsql_developer", label: "PL/SQL Developer" },
 ];
 
 export default function Roles() {
@@ -44,7 +45,7 @@ export default function Roles() {
             </div>
           </div>
         ))}
-        <div className="col-span-2 bg-[#111a14] border border-white/5 rounded-xl p-6 flex items-center justify-center">
+        <div className="col-span-1 bg-[#111a14] border border-white/5 rounded-xl p-6 flex items-center justify-center">
           <span className="text-[20px] text-[#4a5e4e] font-mono">
             MORE COMING SOON
           </span>
